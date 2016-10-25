@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8" />
+	<title>Réserver un vélo</title>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- /////////////////////// DIAPORAMA /////////////////////// -->
+	<section id="diaporama">
+		<div class="container">
+			<div class="slider">
+				<div class="slide">
+					<div class="texte">
+						Bienvenue dans l'application de réservation de vélib'. </br>
+						Pour réserver, suivez les instructions.
+					</div>
+				</div>
+				<div class="slide">
+					<div class="texte">
+						Parcourez la carte ci-dessous et cliquez sur la station dans laquelle vous souhaitez réserver un vélib'. <br/> Après
+						avoir cliqué, vous trouverez les informations utiles de la station sélectionnée dans l'encart à droite de la carte.
+					</div>
+				</div>
+				<div class="slide">
+					<div class="texte">
+						S'il reste des vélib' disponibles, vous pouvez réserver en cliquant sur le bouton "réserver". </br>
+						Vous avez alors 20 minutes pour pouvoir réserver le vélib' choisi.
+					</div>
+				</div>
+				<div class="slide">
+					<div class="texte">
+						Après avoir signé dans l'encadré apparu en bas de la page, le vélib' est à vous !
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="fleches">
+			<i id="flecheGauche" class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
+			<i id="flecheDroite" class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
+		</div>
+	</section>
+
+	<!-- /////////////////////// CARTE /////////////////////// -->
+	
+	<section id="informations">
+		<div id="map">
+		</div>
+		<div id="detailsStation">
+			<form>
+				<fieldset>
+					<legend>Détails de la station</legend>
+					<p>Nom :</p>
+					<div id="nomStation"></div>
+					<p>Adresse :</p>
+					<div id="adresse"></div>
+					<p>Nombre de places :</p>
+					<div id="nbPlaces"></div>
+					<p> Nombre de vélos disponibles :</p>
+					<div id="disponibilite"></div>
+					<p>Statut :</p>
+					<div id="statut"></div>
+					<div id="travaux"></div>
+					<input type="submit" value="Réserver" id="reserver" />
+				</fieldset>
+			</form>
+		</div>
+	</section>
+
+	<!-- /////////////////////// RESERVATION /////////////////////// -->
+
+	<section id="reservation">
+		<div id="decompte">
+			1 vélo sélectionné à la station : <br/>
+			<span id="stationSelection"></span> <br/>
+			<p> Réservez avant <span id="minute">20</span> min <span id="seconde">00</span> s</p>
+			<p></p>
+		</div>
+		<div id="signature">
+			<canvas id="canvas" width="200" height="200"></canvas>
+		</div>
+	</section>
+
+	<script src="js/ajax.js"></script>
+	<script src="js/projet3.js"></script>
+	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv7JzN7KzOADjWBMOjU9Jdn6BsWEKcoCg&callback=initMap"></script>
+
+</body>
+
+</html>

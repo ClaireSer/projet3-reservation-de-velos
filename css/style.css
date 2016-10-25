@@ -1,0 +1,106 @@
+body {
+    background: whitesmoke;
+}
+/* **************** Section diaporama **************** */
+
+.container {
+    margin: 50px auto;
+    width: 900px;    
+    overflow: hidden;
+    box-shadow: 6px 6px 15px black; 
+}
+.slider {
+    width: 400%;
+    transition-duration: 1s;
+}
+.slide {
+    height: 200px;
+    width: 900px;
+    float: left; 
+    background-color: beige;
+    box-shadow: 0px 0px 100px maroon inset;
+}
+.texte {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 5%;
+    margin-right: 40px;
+    margin-left: 40px;    
+}
+#diaporama {
+    position: relative;
+}
+#fleches {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    width: 80%;
+}
+.fa {
+    border: 1px solid transparent;
+    background-color: lightgrey;
+    color: maroon;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    box-shadow: 6px 6px 16px grey inset;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+.fa:hover {
+    font-size: 35px;
+    box-shadow: 6px 6px 16px dimgrey inset;    
+}
+.fa:active {
+    box-shadow: 6px 6px 16px black inset;    
+    background-color: white;
+}
+
+
+/* **************** Section carte **************** */
+
+#informations {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    clear: both;
+}
+#map {
+    height: 500px;        
+}
+fieldset {
+    height: 470px;
+}
+#map {
+    width: 50%;
+    border: 2px solid black;
+}
+#detailsStation {
+    width: 30%;
+}
+
+
+/* **************** Section réservation **************** */
+
+#reservation {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+#decompte {
+    font-size: 24px;
+    text-transform: uppercase;
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+}
+#stationSelection {
+    color: red;
+}
+#signature {
+    border: 1px solid black;
+    width: 30%;
+}
