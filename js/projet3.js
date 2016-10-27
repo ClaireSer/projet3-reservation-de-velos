@@ -1,37 +1,125 @@
-// **************************************  Diaporama ************************************** 
-
-var flecheGaucheElt = document.getElementById("flecheGauche");
-var flecheDroiteElt = document.getElementById("flecheDroite");
-var compteurSlide = 0;
-var goLeft = false;
-
-flecheDroiteElt.addEventListener("click", function clicFlecheDroite() {
-  var sliderElt = document.querySelector(".slider");
-  sliderElt.style.transform += "translateX(-900px)";
-  goLeft = true;
-  compteurSlide++;
-  if (compteurSlide % 4 == 0) {
-    sliderElt.style.transform += "translateX(3600px)";
-  }
-});
-flecheGaucheElt.addEventListener("click", function clicFlecheGauche() {
-  if (goLeft) {
-    compteurSlide--;
-    var sliderElt = document.querySelector(".slider");
-    sliderElt.style.transform += "translateX(900px)";
-    if (compteurSlide % 4 == 3 || compteurSlide % 4 == -1) {
-      sliderElt.style.transform += "translateX(-3600px)";
-    }
-  }
-});
-
-
-// ******************* Création de la carte de l'api google map ******************* 
+// **************************************  Variables globales ************************************** 
 
 var map;
 var marker;
 var markers = [];
 var api = "http://opendata.paris.fr/api/records/1.0/search/?dataset=stations-velib-disponibilites-en-temps-reel&rows=1224";
+
+
+var selectedStation = null;
+var reservationEnCours = null;
+
+
+var minuteElt = document.getElementById("minute");
+var secondeElt = document.getElementById("seconde");
+var finDecompte;
+
+
+var messageElt = document.querySelectorAll("#decompte p")[0];
+var reservationImpossibleElt = document.querySelectorAll("#decompte p")[1];
+var stationSelectionElt = document.getElementById("stationSelection");
+
+
+// **************************************  Classes ************************************** 
+
+function Station(record) {
+  this.name = record.fields.name;
+  this.address = record.fields.address;
+  this.nbPlaces = record.fields.bike_stands;
+  this.disponibilite = record.fields.available_bikes;
+  this.statut = record.fields.status;
+
+  this.majStation = function () {
+    var nomStationElt = document.getElementById("nomStation");
+    nomStationElt.textContent = this.name;
+    var adresseElt = document.getElementById("adresse");
+    adresseElt.textContent = this.adresse;
+    var placeElt = document.getElementById("nbPlaces");
+    placeElt.textContent = this.nbPlaces;
+    var dispoElt = document.getElementById("disponibilite");
+    dispoElt.textContent = this.disponibilite;
+    var statutElt = document.getElementById("statut");
+    statutElt.textContent = this.status;
+  }
+}
+
+function Reservation(station) {
+  var that = this;
+  this.station = station;
+  this.isExpired = false;
+  this.majMessage = function () {
+    if (that.station.disponibilite == 0) {
+      messageElt.style.display = "none";
+      reservationImpossibleElt.style.display = "block";
+      reservationImpossibleElt.textContent = "Réservation impossible car aucun vélo n'est disponible";
+    } else {
+      messageElt.style.display = "block";
+      reservationImpossibleElt.style.display = "none";
+      minuteElt.textContent = 20;
+      secondeElt.textContent = 00;
+
+      clearInterval(finDecompte);
+      finDecompte = setInterval(function () {
+        var compteurMinute = Number(minuteElt.textContent);
+        var compteurSeconde = Number(secondeElt.textContent);
+        if (compteurSeconde == 0) {
+          secondeElt.textContent = 59;
+          if (compteurMinute > 0) {
+            minuteElt.textContent = compteurMinute - 1;
+          } else {
+            that.isExpired = true;
+            clearInterval(finDecompte);
+            var decompteElt = document.getElementById("decompte");
+            decompteElt.textContent = "Décompte terminé, veuillez recommencer l'opération de réservation en actualisant la page.";
+          }
+        } else {
+          secondeElt.textContent = compteurSeconde - 1;
+        }
+      }, 1000);
+    }
+  };
+}
+
+function Diaporama() {
+
+  var compteurSlide = 0;
+  var goLeft = false;
+
+  this.flecheDroite = function () {
+    sliderElt.style.transform += "translateX(-900px)";
+    goLeft = true;
+    compteurSlide++;
+    if (compteurSlide % 4 == 0) {
+      sliderElt.style.transform += "translateX(3600px)";
+    }
+  }
+
+  this.flecheGauche = function () {
+    if (goLeft) {
+      sliderElt.style.transform += "translateX(900px)";
+      compteurSlide--;
+      if (compteurSlide % 4 == 3 || compteurSlide % 4 == -1) {
+        sliderElt.style.transform += "translateX(-3600px)";
+      }
+    }
+  }
+}
+
+// **************************************  Diaporama ************************************** 
+
+
+var sliderElt = document.querySelector(".slider");
+var goSlide = new Diaporama();
+
+document.getElementById("flecheDroite").addEventListener("click", function () {
+  goSlide.flecheDroite();
+});
+document.getElementById("flecheGauche").addEventListener("click", function () {
+  goSlide.flecheGauche();
+});
+
+
+// ******************* Création de la carte de l'api google map ******************* 
 
 
 function initMap() {
@@ -52,24 +140,8 @@ function initMap() {
       });
 
       marker.addListener('click', function () {
-        var nomStationElt = document.getElementById("nomStation");
-        nomStationElt.textContent = record.fields.name;
-        var adresseElt = document.getElementById("adresse");
-        adresseElt.textContent = record.fields.address;
-        var placeElt = document.getElementById("nbPlaces");
-        placeElt.textContent = record.fields.bike_stands;
-        var dispoElt = document.getElementById("disponibilite");
-        dispoElt.textContent = record.fields.available_bikes;
-        var statutElt = document.getElementById("statut");
-        statutElt.textContent = record.fields.status;
-
-
-        if (window.sessionStorage) {
-          window.sessionStorage.setItem('nomStationItem', nomStationElt.textContent);
-          window.sessionStorage.setItem('disponibiliteItem', dispoElt.textContent);
-        } else {
-          alert('le sessionStorage n\'est pas implémenté sur ce navigateur');
-        }
+        selectedStation = new Station(record);
+        selectedStation.majStation();
       });
 
       markers.push(marker);
@@ -79,52 +151,24 @@ function initMap() {
   });
 }
 
-
-// **************************************  Gestion de la réservation ******************* 
-
-var minuteElt = document.getElementById("minute");
-var secondeElt = document.getElementById("seconde");
-var finDecompte;
+// **************************************  Gestion de la réservation **************************************
 
 
-function decompte() {
-  var compteurMinute = Number(minuteElt.textContent);
-  var compteurSeconde = Number(secondeElt.textContent);
-  if (compteurSeconde == 0) {
-    secondeElt.textContent = 59;
-    if (compteurMinute > 0) {
-      minuteElt.textContent = compteurMinute - 1;
-    } else {
-      clearInterval(finDecompte);
-      var decompteElt = document.getElementById("decompte");
-      decompteElt.innerHTML = "";
-      decompteElt.textContent = "Décompte terminé, veuillez recommencer l'opération de réservation.";
-    }
-  } else {
-    secondeElt.textContent = compteurSeconde - 1;
-  }
-}
+document.getElementById("reserver").addEventListener('click', function () {
+  stationSelectionElt.textContent = selectedStation.name;
 
-var submitElt = document.getElementById("reserver");
-submitElt.addEventListener('click', function (e) {
-  e.preventDefault();
-  var messageElt = document.querySelectorAll("#decompte p")[0];
-  var reservationImpossibleElt = document.querySelectorAll("#decompte p")[1];
-  if (window.sessionStorage.getItem('disponibiliteItem') == 0) {
-    messageElt.style.display = "none";
-    reservationImpossibleElt.style.display = "block";
-    reservationImpossibleElt.textContent = "Réservation impossible car aucun vélo n'est disponible";
-  } else {
-    messageElt.style.display = "block";
-    reservationImpossibleElt.style.display = "none";
-    minuteElt.textContent = 20;
-    secondeElt.textContent = 00;
-
-    var stationSelectionElt = document.getElementById("stationSelection");
-    stationSelectionElt.textContent = window.sessionStorage.getItem('nomStationItem');
-
-    clearInterval(finDecompte);
-    finDecompte = setInterval(decompte, 1000);
-
-  }
+  reservationEnCours = new Reservation(selectedStation);
+  reservationEnCours.majMessage();
 });
+
+
+
+
+
+    // if (window.sessionStorage) {
+    //   window.sessionStorage.getItem('reservations');
+    //   window.sessionStorage.setItem('disponibiliteItem', this.disponibilite);
+    // reservations.push(reservationValidée);
+    // } else {
+    //   alert('le sessionStorage n\'est pas implémenté sur ce navigateur');
+    // }
