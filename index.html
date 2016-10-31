@@ -4,7 +4,7 @@
 <head>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	<meta charset="utf-8" />
-	<title>Réserver un vélo</title>
+	<title>Application de réservation de vélib'</title>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 
@@ -24,8 +24,8 @@
 				<div class="slide">
 					<div class="texte">
 						<h1>Choisir son vélib' sur la carte</h1>
-						Parcourez la carte ci-dessous et cliquez sur la station dans laquelle vous souhaitez réserver un vélib'. 
-						Vous trouverez alors les informations utiles de la station sélectionnée dans l'encart à droite de la carte.
+						Parcourez la carte ci-dessous et cliquez sur la station dans laquelle vous souhaitez réserver un vélib'. Vous trouverez alors
+						les informations utiles de la station sélectionnée dans l'encart à droite de la carte.
 					</div>
 				</div>
 				<div class="slide">
@@ -68,7 +68,7 @@
 				<p>Statut :</p>
 				<div id="statut"></div>
 				<div id="travaux"></div>
-				<input type="submit" value="Réserver" id="reserver" />
+				<div id="divInput"><input type="submit" value="Réserver" id="reserver" /></div>
 			</fieldset>
 		</div>
 	</section>
@@ -77,16 +77,27 @@
 
 	<section id="reservation">
 		<div id="decompte">
-			1 vélo sélectionné à la station : <br/>
+			<span id="messageValidation">1 vélo sélectionné à la station : </span> <br/>
 			<span id="stationSelection"></span> <br/>
 			<p> Réservez avant <span id="minute">20</span> min <span id="seconde">00</span> s</p>
 			<p></p>
 		</div>
 		<div id="signature">
-			<canvas id="canvas" width="200" height="200"></canvas>
+			<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+			<p>Signature</p>
+			<canvas id="canvas" width="400" height="100">Votre navigateur ne supporte pas la balise HTML5 canvas.</canvas>
+			<div id="boutons">
+				<input type="submit" value="Annuler" id="annuler" />
+				<input type="submit" value="Valider" id="valider" />
+			</div>
 		</div>
 	</section>
 
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+		crossorigin="anonymous"></script>
+	<script src="js/diaporama.js"></script>
+	<script src="js/station.js"></script>
+	<script src="js/reservation.js"></script>
 	<script src="js/ajax.js"></script>
 	<script src="js/projet3.js"></script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>

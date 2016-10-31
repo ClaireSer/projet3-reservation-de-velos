@@ -46,7 +46,7 @@ body {
     left: 10%;
     width: 80%;
 }
-.fa {
+#fleches .fa {
     border: 1px solid transparent;
     background-color: lightgrey;
     color: maroon;
@@ -108,7 +108,18 @@ fieldset {
 #stationSelection {
     color: red;
 }
+#boutons, #divInput {
+    text-align: center;
+}
 #signature {
-    border: 1px solid black;
+    border: 1px solid;
     width: 30%;
+}
+.fa-pencil {
+    margin: 20px;
+}
+#signature p {
+    position: relative;
+    bottom: 30px;
+    left: 10px;
 }
