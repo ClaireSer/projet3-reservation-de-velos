@@ -1,3 +1,4 @@
+
 // **************************************  Variables globales ************************************** 
 
 var selectedStation = null;
@@ -14,7 +15,13 @@ document.getElementById("flecheDroite").addEventListener("click", function () {
 document.getElementById("flecheGauche").addEventListener("click", function () {
   goSlide.flecheGauche();
 });
-
+window.addEventListener("keydown", function (e) {
+  if (e.keyCode == 37) {
+    goSlide.flecheGauche();
+  } else if (e.keyCode == 39) {
+    goSlide.flecheDroite();
+  }
+});
 
 // ******************* Création de la carte de l'api google map et mise en place de marqueurs ******************* 
 
@@ -54,21 +61,33 @@ function initMap() {
 // **************************************  Gestion de la réservation **************************************
 
 
-document.getElementById("reserver").addEventListener('click', function () {
-  document.getElementById("stationSelection").textContent = selectedStation.name;
-  if (reservationEnCours !== null) {
-    reservationEnCours.stopDecompte();
+
+document.getElementById("reserver").addEventListener("click", function () {
+  if (selectedStation == null) {
+    alert("Veuillez sélectionner une station sur la carte.");
+  } else {
+    document.getElementById("stationSelection").textContent = selectedStation.name;
+    if (reservationEnCours !== null) {
+      reservationEnCours.stopDecompte();
+    }
+    reservationEnCours = new Reservation(selectedStation);
+    reservationEnCours.majMessage();
   }
-  reservationEnCours = new Reservation(selectedStation);
-  reservationEnCours.majMessage();
 });
 
 
-// **************************************  Gestion de la validation de la signature **************************************
+// **************************************  Gestion de la validation de la signature *****************************
 
+newSignature = new Signature();
 
 document.getElementById("valider").addEventListener("click", function () {
-  if (selectedStation.isExpired) {
+  if (selectedStation == null) {
+    alert("Veuillez choisir une station sur la carte.");
+  } else if (reservationEnCours == null) {
+    alert("Veuillez cliquer sur le bouton \'réserver\' avant de valider la réservation.");
+  } else if (newSignature.isValid == false) {
+    alert("Veuillez d'abord signer avant de valider.");
+  } else if (selectedStation.isExpired) {
     alert("Après 20 minutes d'inactivité, la session est expirée.\nVeuiller recommencer l'opération de réservation.");
     reservationEnCours.deleteDataStation();
   } else if (selectedStation.disponibilite == 0 || selectedStation.statut == "CLOSED") {
@@ -79,70 +98,106 @@ document.getElementById("valider").addEventListener("click", function () {
   }
 });
 
+document.getElementById("annuler").addEventListener("click", function () {
+  newSignature.clear();
+  newSignature.isValid = false;
+});
 
 // **************************************  Gestion du canvas **************************************
 
-$(function () {
 
-  var monCanvas = document.getElementById("canvas");
-  var context = monCanvas.getContext("2d");
+var monCanvas = document.getElementById("canvas");
+var paint = false;
 
-  var clickX = new Array();
-  var clickY = new Array();
-  var clickDrag = new Array();
-  var paint;
-
-  function addClick(x, y, dragging) {
-    clickX.push(x);
-    clickY.push(y);
-    clickDrag.push(dragging);
-  }
-
-  function redraw() {
-    context.clearRect(0, 0, monCanvas.width, monCanvas.height);
-    // vider tableaux
-    context.strokeStyle = "purple";
-    context.lineJoin = "round";
-    context.lineWidth = 3;
-
-    for (var i = 0; i < clickX.length; i++) {
-      context.beginPath();
-      if (clickDrag[i] && i) {
-        context.moveTo(clickX[i - 1], clickY[i - 1]);
-      } else {
-        context.moveTo(clickX[i] - 1, clickY[i]);
-      }
-      context.moveTo(clickX[i], clickY[i]);
-      context.lineTo(clickX[i], clickY[i]);
-      context.closePath();
-      context.stroke();
-    }
-  }
-
-  $('#canvas').mousedown(function (e) {
-    paint = true;
-    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-    redraw();
-  });
-
-  $('#canvas').mousemove(function (e) {
-    if (paint) {
-      addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-      redraw();
-    }
-  });
-
-
-  $('#canvas').mouseup(function (e) {
-    paint = false;
-  });
-
-  $('#canvas').mouseleave(function (e) {
-    paint = false;
-  });
-
-
-  document.getElementById("annuler").addEventListener("click", function () {
-    context.clearRect(0, 0, monCanvas.width, monCanvas.height);
-  });
+monCanvas.addEventListener("mousedown", function (e) {
+  paint = true;
+  newSignature.addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+  newSignature.redraw();
 });
+monCanvas.addEventListener("mousemove", function (e) {
+  if (paint) {
+    newSignature.addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+    newSignature.redraw();
+    newSignature.isValid = true;
+  }
+});
+monCanvas.addEventListener("mouseup", function (e) {
+  paint = false;
+});
+monCanvas.addEventListener("mouseleave", function (e) {
+  paint = false;
+});
+
+
+// **************************************  Gestion du modal **************************************
+
+
+$(document).ready(function () {
+
+  // Lorsque l'on clique sur show on affiche la fenêtre modale
+  $('#show').click(function (e) {
+    //On désactive le comportement du lien
+    e.preventDefault();
+    showModal();
+  });
+
+  // Lorsque l'on clique sur le fond on cache la fenetre modale   
+  $('#fond').click(function () {
+    hideModal();
+  });
+
+  // Lorsque l'on modifie la taille du navigateur la taille du fond change
+  $(window).resize(function () {
+    resizeModal()
+  });
+
+
+
+
+  function showModal() {
+    var id = '#modal';
+    $(id).html('Voici ma fenetre modale<br/><a href="#" class="close">Fermer la fenetre</a>');
+
+    // On definit la taille de la fenetre modale
+    resizeModal();
+
+    // Effet de transition     
+    $('#fond').fadeIn(1000);
+    $('#fond').fadeTo("slow", 0.8);
+    // Effet de transition   
+    $(id).fadeIn(2000);
+
+    $('.popup .close').click(function (e) {
+      // On désactive le comportement du lien
+      e.preventDefault();
+      // On cache la fenetre modale
+      hideModal();
+    });
+  }
+
+
+
+  function hideModal() {
+    // On cache le fond et la fenêtre modale
+    $('#fond, .popup').hide();
+    $('.popup').html('');
+  }
+
+
+  function resizeModal() {
+    var modal = $('#modal');
+    // On récupère la largeur de l'écran et la hauteur de la page afin de cacher la totalité de l'écran
+    var winH = $(document).height();
+    var winW = $(window).width();
+
+    // le fond aura la taille de l'écran
+    $('#fond').css({ 'width': winW, 'height': winH });
+
+    // On récupère la hauteur et la largeur de l'écran
+    var winH = $(window).height();
+    // On met la fenêtre modale au centre de l'écran
+    modal.css('top', winH / 2 - modal.height() / 2);
+    modal.css('left', winW / 2 - modal.width() / 2);
+  }
+});
+

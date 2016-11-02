@@ -6,8 +6,7 @@
 	<meta charset="utf-8" />
 	<title>Application de réservation de vélib'</title>
 	<link href="css/style.css" rel="stylesheet">
-	<link href="css/font-awesome.min.css" rel="stylesheet">
-
+	<script src="https://use.fontawesome.com/929cf51964.js"></script>
 </head>
 
 <body>
@@ -38,7 +37,8 @@
 				<div class="slide">
 					<div class="texte">
 						<h1>Validation de la réservation</h1>
-						Après avoir signé dans l'encadré apparu en bas de la page, le vélib' est à vous !
+						Après avoir signé dans l'encadré apparu en bas de la page, cliquez sur le bouton "valider". </br>
+						Le vélib' est alors à vous et la ville vous appartient !
 					</div>
 				</div>
 			</div>
@@ -83,8 +83,10 @@
 			<p></p>
 		</div>
 		<div id="signature">
-			<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
-			<p>Signature</p>
+			<div>
+				<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+				<p>Signature</p>
+			</div>
 			<canvas id="canvas" width="400" height="100">Votre navigateur ne supporte pas la balise HTML5 canvas.</canvas>
 			<div id="boutons">
 				<input type="submit" value="Annuler" id="annuler" />
@@ -93,11 +95,18 @@
 		</div>
 	</section>
 
+	<!-- /////////////////////// MODAL /////////////////////// -->
+	<div id="fond">
+		<div id="modal" class="popup"></div>
+	</div>
+	<a href="#" id="show">Clic !!!</a>
+
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		crossorigin="anonymous"></script>
 	<script src="js/diaporama.js"></script>
 	<script src="js/station.js"></script>
 	<script src="js/reservation.js"></script>
+	<script src="js/signature.js"></script>
 	<script src="js/ajax.js"></script>
 	<script src="js/projet3.js"></script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
