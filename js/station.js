@@ -7,15 +7,15 @@ function Station(record) {
   this.statut = record.fields.status;
 
   this.majStation = function () {
-    var nomStationElt = document.getElementById("nomStation");
-    nomStationElt.textContent = this.name;
-    var adresseElt = document.getElementById("adresse");
-    adresseElt.textContent = this.address;
-    var placeElt = document.getElementById("nbPlaces");
-    placeElt.textContent = this.nbPlaces;
-    var dispoElt = document.getElementById("disponibilite");
-    dispoElt.textContent = this.disponibilite;
-    var statutElt = document.getElementById("statut");
-    statutElt.textContent = this.statut;
+    // détails Station
+    document.getElementById("nomStation").textContent = this.name;
+    document.getElementById("adresse").textContent = this.address;
+    document.getElementById("nbPlaces").textContent = this.nbPlaces;
+    document.getElementById("disponibilite").textContent = this.disponibilite;
+    document.getElementById("statut").textContent = this.statut;
+
+    // message final après réservation
+    document.getElementById("nomStationSelection").textContent = selectedStation.name;
+    document.getElementById("adresseStationSelection").textContent = selectedStation.address;
   }
 }

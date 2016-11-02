@@ -34,4 +34,11 @@ function Signature() {
         context.clearRect(0, 0, monCanvas.width, monCanvas.height);
     }
     this.isValid = false;
+
+    this.showSignature = function () {
+        document.getElementById("modal").style.display = "block";
+    }
+    this.hideSignature = function () {
+        document.getElementById("modal").style.display = "none";
+    }
 }

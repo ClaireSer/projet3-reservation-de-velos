@@ -67,7 +67,6 @@
 				<div id="disponibilite"></div>
 				<p>Statut :</p>
 				<div id="statut"></div>
-				<div id="travaux"></div>
 				<div id="divInput"><input type="submit" value="Réserver" id="reserver" /></div>
 			</fieldset>
 		</div>
@@ -77,29 +76,31 @@
 
 	<section id="reservation">
 		<div id="decompte">
-			<span id="messageValidation">1 vélo sélectionné à la station : </span> <br/>
-			<span id="stationSelection"></span> <br/>
-			<p> Réservez avant <span id="minute">20</span> min <span id="seconde">00</span> s</p>
-			<p></p>
+			<p>Vous venez de réserver 1 vélo à la station :<br/>
+				<span id="nomStationSelection"></span> <br/> à l'adresse : <br/>
+				<span id="adresseStationSelection"></span></p>
+			<p> Vous pouvez aller chercher votre vélo avant :<br/>
+				<span id="minute"></span> min <span id="seconde"></span> s <br/> 
+				ET sans fermer le navigateur, <br/>
+				Après quoi la réservation expirera.</p>
 		</div>
-		<div id="signature">
-			<div>
-				<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
-				<p>Signature</p>
-			</div>
-			<canvas id="canvas" width="400" height="100">Votre navigateur ne supporte pas la balise HTML5 canvas.</canvas>
-			<div id="boutons">
-				<input type="submit" value="Annuler" id="annuler" />
-				<input type="submit" value="Valider" id="valider" />
+		<div id="modal">
+			<div id="signature">
+				<div>
+					<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+					<p>Signature</p>
+				</div>
+				<span id="close">x</span>
+				<canvas id="canvas" width="600" height="240">Votre navigateur ne supporte pas la balise HTML5 canvas.</canvas>
+				<div id="boutons">
+					<input type="submit" value="Effacer" id="effacer" />
+					<input type="submit" value="Valider" id="valider" />
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- /////////////////////// MODAL /////////////////////// -->
-	<div id="fond">
-		<div id="modal" class="popup"></div>
-	</div>
-	<a href="#" id="show">Clic !!!</a>
+
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		crossorigin="anonymous"></script>
