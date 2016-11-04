@@ -15,30 +15,70 @@
 		<div class="container">
 			<div class="slider">
 				<div class="slide">
-					<div class="texte">
+					<div class="contenu page1">
 						<p>Bienvenue </br> dans l'application </br> de réservation de vélib'. </p>
 						<p>Pour réserver, suivez les instructions.</p>
 					</div>
 				</div>
 				<div class="slide">
-					<div class="texte">
-						<h1>Choisir son vélib' sur la carte</h1>
-						Parcourez la carte ci-dessous et cliquez sur la station dans laquelle vous souhaitez réserver un vélib'. Vous trouverez alors
-						les informations utiles de la station sélectionnée dans l'encart à droite de la carte.
+					<div class="contenu">
+						<h1>ETAPE 1 : Choisir son vélib' sur la carte</h1>
+						<div class="contenuFlex">
+							<img src="images/chateau.png" alt="carte de Paris : zoom sur le chateau de Vincennes" />
+							<div class="texte">
+								Parcourez la carte, zoomez et cliquez sur la station dans laquelle vous souhaitez réserver un vélib'.
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="slide">
-					<div class="texte">
-						<h1>Réservation</h1>
-						S'il reste des vélib' disponibles, vous pouvez en réserver un en cliquant sur le bouton "réserver". </br>
-						Vous avez alors 20 minutes pour pouvoir valider la réservation du vélib' choisi.
+					<div class="contenu">
+						<h1>ETAPE 2 : Réservation</h1>
+						<div class="contenuFlex">
+							<img src="images/details.png" alt="détails de la station" />
+							<div class="texte">
+								<p>Vous trouverez alors les informations utiles de la station sélectionnée dans l'encart à droite de la carte. </p>
+								<p>S'il reste des vélib' disponibles, vous pouvez en réserver un en cliquant sur le bouton "réserver".</p>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="slide">
-					<div class="texte">
-						<h1>Validation de la réservation</h1>
-						Après avoir signé dans l'encadré apparu en bas de la page, cliquez sur le bouton "valider". </br>
-						Le vélib' est alors à vous et la ville vous appartient !
+					<div class="contenu">
+						<h1>ETAPE 3 : Validation de la réservation</h1>
+						<div class="contenuFlex">
+							<img src="images/modal.png" alt="détails de la station" />
+							<div class="texte">
+								<p>Après avoir cliqué sur le bouton "réserver", vous devrez signer dans l'encadré apparu à l'écran comme ci-contre.</p>
+								<p>Vous pouvez cliquer sur le bouton "effacer" pour recommencer une signature.</p>
+								<p>Vous pouvez cliquer sur la flèche en haut à droite de l'encadré afin de choisir une autre station.</p>
+								<p>Pour valider votre signature... cliquez sur "valider".</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="contenu">
+						<h1>Message de confirmation</h1>
+						<div class="contenuFlex">
+							<img src="images/message.png" alt="détails de la station" />
+							<div class="texte">
+								<p>Le vélib' est maintenant à vous ! </p>
+								<p>Un message de confirmation en bas de page vous indique le nom et l'adresse de la station que vous avez sélectionnée. </p>
+								<p>Attention, vous avez 20 minutes pour aller chercher votre vélo à la station. </p>
+								<p>Passé ce temps, la réservation aura expiré. </p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="contenu">
+						<h1>Et maintenant...</h1>
+						<div class="contenuFlex">
+							<div class="texte finSlide">
+								<p>C'est à vous ! </p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -80,9 +120,7 @@
 				<span id="nomStationSelection"></span> <br/> à l'adresse : <br/>
 				<span id="adresseStationSelection"></span></p>
 			<p> Vous pouvez aller chercher votre vélo avant :<br/>
-				<span id="minute"></span> min <span id="seconde"></span> s <br/> 
-				ET sans fermer le navigateur, <br/>
-				Après quoi la réservation expirera.</p>
+				<span id="minute"></span> min <span id="seconde"></span> s <br/> Après quoi la réservation expirera.</p>
 		</div>
 		<div id="modal">
 			<div id="signature">
@@ -94,11 +132,13 @@
 				<canvas id="canvas" width="600" height="240">Votre navigateur ne supporte pas la balise HTML5 canvas.</canvas>
 				<div id="boutons">
 					<input type="submit" value="Effacer" id="effacer" />
-					<input type="submit" value="Valider" id="valider" />
+					<a href="#basDePage"><input type="submit" value="Valider" id="valider" /></a>
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<div id="basDePage"></div>
 
 
 

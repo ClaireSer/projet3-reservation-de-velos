@@ -17,8 +17,9 @@ function Reservation(station) {
         decompteElt.textContent = "La session est expirée et votre vélo n'est plus disponible.\nVeuiller recommencer l'opération de réservation.";
         decompteElt.style.textTransform = "uppercase";
         if (window.sessionStorage) {
-          window.sessionStorage.setItem('nomStationItem', null);
-          window.sessionStorage.setItem('adresseStationItem', null);
+          sessionStorage.clear();
+          console.log(sessionStorage.adresseStationItem);
+          console.log(sessionStorage.nomStationItem);
         } else {
           alert('Le sessionStorage n\'est pas implémenté sur ce navigateur : les informations n\'ont pas été sauvergardées');
         }
@@ -43,8 +44,11 @@ function Reservation(station) {
       window.sessionStorage.getItem(selectedStation.address);
       window.sessionStorage.setItem('nomStationItem', selectedStation.name);
       window.sessionStorage.setItem('adresseStationItem', selectedStation.address);
+      console.log(sessionStorage.nomStationItem);
+      console.log(sessionStorage.adresseStationItem);
     } else {
       alert('le sessionStorage n\'est pas implémenté sur ce navigateur');
     }
   }
+  this.isValid = false;
 }

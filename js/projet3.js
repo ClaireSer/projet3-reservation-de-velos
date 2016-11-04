@@ -16,7 +16,7 @@ document.getElementById("flecheDroite").addEventListener("click", function () {
 document.getElementById("flecheGauche").addEventListener("click", function () {
   goSlide.flecheGauche();
 });
-window.addEventListener("keydown", function (e) {
+window.addEventListener("keyup", function (e) {
   if (e.keyCode == 37) {
     goSlide.flecheGauche();
   } else if (e.keyCode == 39) {
@@ -48,10 +48,12 @@ function initMap() {
       });
 
       marker.addListener('click', function () {
-        selectedStation = new Station(record);
-        selectedStation.majStation();
-        if (newSignature !== null) {
-          newSignature.hideSignature();
+        if (reservationEnCours == null || reservationEnCours.isValid == false) {
+          selectedStation = new Station(record);
+          selectedStation.majStation();
+          if (newSignature !== null) {
+            newSignature.hideSignature();
+          }
         }
       });
 
@@ -71,8 +73,10 @@ document.getElementById("reserver").addEventListener("click", function () {
     alert("Aucun vélo n'est disponible et/ou la station est fermée.\nVeuillez choisir une autre station.");
   } else {
     newSignature = new Signature();
-    newSignature.showSignature();
-    newSignature.clear();
+    if (reservationEnCours == null || reservationEnCours.isValid == false) {
+      newSignature.showSignature();
+      newSignature.clear();
+    }
   }
 });
 
@@ -85,6 +89,7 @@ document.getElementById("valider").addEventListener("click", function () {
     reservationEnCours.messageReservationValidee();
     reservationEnCours.sauvegardeDataStation();
     newSignature.hideSignature();
+    reservationEnCours.isValid = true;
   } else {
     alert("Veuillez d'abord signer avant de valider.");
   }
@@ -95,7 +100,7 @@ document.getElementById("effacer").addEventListener("click", function () {
   newSignature.isValid = false;
 });
 
-document.getElementById("close").addEventListener("click", function() {
+document.getElementById("close").addEventListener("click", function () {
   newSignature.hideSignature();
 });
 
