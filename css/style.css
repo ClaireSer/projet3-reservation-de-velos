@@ -12,11 +12,11 @@ body {
     box-shadow: 6px 6px 15px black; 
 }
 .slider {
-    width: 600%;
+    width: 700%;
     transition-duration: 1s;
 }
 .slide {
-    height: 500px;
+    height: 530px;
     width: 1180px;
     float: left; 
     background: radial-gradient(ellipse farthest-corner at 45px 45px , #1e22aa, white 75%, #ff803b);
@@ -109,12 +109,13 @@ fieldset div {
 
 /* **************** Section réservation **************** */
 
-#decompte {
-    width: 50%;
-    margin: auto;
+#decompte, #expiration {
     text-align: center;
     font-size: 24px;
     display: none;
+}
+#expiration {
+    text-transform: uppercase;
 }
 #nomStationSelection, #adresseStationSelection, #minute, #seconde {
     color: red;
@@ -130,7 +131,7 @@ fieldset div {
     left: 0;
     top: 0;
     width: 100%;
-    height: 180%;
+    height: 190%;
     background-color: rgba(0, 0, 0, 0.7);
     display: none;
 }

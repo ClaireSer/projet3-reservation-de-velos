@@ -6,7 +6,7 @@ function Signature() {
     var clickDrag = [];
 
     this.redraw = function () {
-        context.strokeStyle = "#f1a293";
+        context.strokeStyle = "#7b68ee";
         context.lineJoin = "round";
         context.lineWidth = 3;
 
@@ -15,7 +15,7 @@ function Signature() {
             if (clickDrag[i] && i) {
                 context.moveTo(clickX[i - 1], clickY[i - 1]);
             } else {
-                context.moveTo(clickX[i] - 1, clickY[i]);
+                context.moveTo(clickX[i] - 1, clickY[i]); // permet de faire un point quand il y a seulement un mousedown
             }
             context.lineTo(clickX[i], clickY[i]);
             context.closePath();
@@ -36,9 +36,11 @@ function Signature() {
     this.isValid = false;
 
     this.showSignature = function () {
-        document.getElementById("modal").style.display = "block";
+        $("#modal").fadeIn();
+        $("#decompte").hide();
     }
     this.hideSignature = function () {
-        document.getElementById("modal").style.display = "none";
+        $("#modal").fadeOut();
+
     }
 }

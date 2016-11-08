@@ -13,15 +13,14 @@ function Reservation(station) {
         minuteElt.textContent = compteurMinute - 1;
       } else {
         clearInterval(finDecompte);
-        var decompteElt = document.getElementById("decompte");
-        decompteElt.textContent = "La session est expirée et votre vélo n'est plus disponible.\nVeuiller recommencer l'opération de réservation.";
-        decompteElt.style.textTransform = "uppercase";
+        $("#decompte").hide();
+        $("#expiration").show();        
         if (window.sessionStorage) {
           sessionStorage.clear();
           console.log(sessionStorage.adresseStationItem);
           console.log(sessionStorage.nomStationItem);
         } else {
-          alert('Le sessionStorage n\'est pas implémenté sur ce navigateur : les informations n\'ont pas été sauvergardées');
+          alert('Le sessionStorage n\'est pas implémenté sur ce navigateur : les informations n\'ont pas été sauvergardées.');
         }
       }
     } else {
@@ -31,11 +30,15 @@ function Reservation(station) {
 
   this.station = station;
 
+  this.stopDecompte = function () {
+    clearInterval(finDecompte);
+  }
+
   this.messageReservationValidee = function () {
     minuteElt.textContent = "20";
     secondeElt.textContent = "00";
-    document.getElementById("decompte").style.display = "block";
-    document.getElementById("signature").style.display = "none";
+    $("#decompte").show();
+    $("#modal").hide();
   }
 
   this.sauvegardeDataStation = function () {
@@ -47,8 +50,7 @@ function Reservation(station) {
       console.log(sessionStorage.nomStationItem);
       console.log(sessionStorage.adresseStationItem);
     } else {
-      alert('le sessionStorage n\'est pas implémenté sur ce navigateur');
+      alert('le sessionStorage n\'est pas implémenté sur ce navigateur : les informations n\'ont pas été sauvergardées.');
     }
   }
-  this.isValid = false;
 }

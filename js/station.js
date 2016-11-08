@@ -6,16 +6,17 @@ function Station(record) {
   this.disponibilite = record.fields.available_bikes;
   this.statut = record.fields.status;
 
-  this.majStation = function () {
-    // détails Station
+  this.majStation = function () { // détails Station
     document.getElementById("nomStation").textContent = this.name;
     document.getElementById("adresse").textContent = this.address;
     document.getElementById("nbPlaces").textContent = this.nbPlaces;
     document.getElementById("disponibilite").textContent = this.disponibilite;
     document.getElementById("statut").textContent = this.statut;
-
-    // message final après réservation
-    document.getElementById("nomStationSelection").textContent = selectedStation.name;
-    document.getElementById("adresseStationSelection").textContent = selectedStation.address;
+  }
+  
+  this.majMessageReservation = function () { // message final après réservation
+    $("#expiration").hide();
+    document.getElementById("nomStationSelection").textContent = this.name;
+    document.getElementById("adresseStationSelection").textContent = this.address;
   }
 }
