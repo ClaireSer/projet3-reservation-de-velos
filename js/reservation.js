@@ -37,8 +37,8 @@ function Reservation(station) {
   this.messageReservationValidee = function () {
     document.getElementById("nomStationSelection").textContent = station.name;
     document.getElementById("adresseStationSelection").textContent = station.address;
-    minuteElt.textContent = "0";
-    secondeElt.textContent = "5";
+    minuteElt.textContent = "20";
+    secondeElt.textContent = "00";
     $("#decompte").show();
     $("#modal").hide();
     $("#expiration").hide();    
