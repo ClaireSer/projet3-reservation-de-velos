@@ -68,40 +68,13 @@ $(function () {
         } else if (selectedStation.disponibilite == 0 || selectedStation.statut == "CLOSED") {
             alert("Aucun vélo n'est disponible et/ou la station est fermée.\nVeuillez choisir une autre station.");
         } else {
-            selectedStation.majMessageReservation();
             newSignature = new Signature();
             newSignature.showSignature();
             newSignature.clear();
         }
     });
 
-    // **************************************  Gestion de la validation de la signature *****************************
-
-
-    $("#valider").on("click", function () {
-        if (newSignature.isValid) {
-            if (reservationEnCours !== null) {
-                reservationEnCours.stopDecompte();
-            }
-            reservationEnCours = new Reservation(selectedStation);
-            reservationEnCours.messageReservationValidee();
-            reservationEnCours.sauvegardeDataStation();
-            newSignature.hideSignature();
-        } else {
-            alert("Veuillez d'abord signer avant de valider.");
-        }
-    });
-
-    $("#effacer").on("click", function () {
-        newSignature.clear();
-        newSignature.isValid = false;
-    });
-
-    $("#close").on("click", function () {
-        newSignature.hideSignature();
-    });
-
-    // **************************************  Gestion du canvas **************************************
+// **************************************  Gestion du canvas **************************************
 
 
     var monCanvas = $("#canvas");
@@ -124,6 +97,32 @@ $(function () {
     });
     monCanvas.on("mouseleave", function (e) {
         paint = false;
+    });
+
+    // **************************************  Gestion de la validation de la signature *****************************
+
+
+    $("#valider").on("click", function () {
+        if (newSignature.isValid) {
+            if (reservationEnCours !== null) {
+                reservationEnCours.stopDecompte();
+            }
+            newSignature.hideSignature();
+            reservationEnCours = new Reservation(selectedStation);
+            reservationEnCours.messageReservationValidee();
+            reservationEnCours.sauvegardeDataStation();
+        } else {
+            alert("Veuillez d'abord signer avant de valider.");
+        }
+    });
+
+    $("#effacer").on("click", function () {
+        newSignature.clear();
+        newSignature.isValid = false;
+    });
+
+    $("#close").on("click", function () {
+        newSignature.hideSignature();
     });
 
 });

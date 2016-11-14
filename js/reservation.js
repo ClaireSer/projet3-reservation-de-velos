@@ -14,7 +14,7 @@ function Reservation(station) {
       } else {
         clearInterval(finDecompte);
         $("#decompte").hide();
-        $("#expiration").show();        
+        $("#expiration").show();
         if (window.sessionStorage) {
           sessionStorage.clear();
           console.log(sessionStorage.adresseStationItem);
@@ -35,16 +35,17 @@ function Reservation(station) {
   }
 
   this.messageReservationValidee = function () {
-    minuteElt.textContent = "20";
-    secondeElt.textContent = "00";
+    document.getElementById("nomStationSelection").textContent = station.name;
+    document.getElementById("adresseStationSelection").textContent = station.address;
+    minuteElt.textContent = "0";
+    secondeElt.textContent = "5";
     $("#decompte").show();
     $("#modal").hide();
+    $("#expiration").hide();    
   }
 
   this.sauvegardeDataStation = function () {
     if (window.sessionStorage) {
-      window.sessionStorage.getItem(selectedStation.name);
-      window.sessionStorage.getItem(selectedStation.address);
       window.sessionStorage.setItem('nomStationItem', selectedStation.name);
       window.sessionStorage.setItem('adresseStationItem', selectedStation.address);
       console.log(sessionStorage.nomStationItem);

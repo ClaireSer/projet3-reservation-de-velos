@@ -13,10 +13,4 @@ function Station(record) {
     document.getElementById("disponibilite").textContent = this.disponibilite;
     document.getElementById("statut").textContent = this.statut;
   }
-  
-  this.majMessageReservation = function () { // message final après réservation
-    $("#expiration").hide();
-    document.getElementById("nomStationSelection").textContent = this.name;
-    document.getElementById("adresseStationSelection").textContent = this.address;
-  }
 }
